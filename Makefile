@@ -1,4 +1,5 @@
 # Makefile for age calculator
 
-CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c
+build:
+  g++ age_calculator.cpp
+
