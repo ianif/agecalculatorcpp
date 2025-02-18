@@ -6,13 +6,14 @@ int main() {
     std::cout << "Enter your date of birth (YYYY MM DD): ";
     std::cin >> birthYear >> birthMonth >> birthDay;
 
-    // Get the current date
-    time_t t = time(0);
-    tm* now = localtime(&t);
+    // Get the current date using modern C++ chrono
+    auto now = std::chrono::system_clock::now();
+    auto time = std::chrono::system_clock::to_time_t(now);
+    auto* timeinfo = std::localtime(&time);
     
-    int currentYear = now->tm_year + 1900;
-    int currentMonth = now->tm_mon + 1;
-    int currentDay = now->tm_mday;
+    int currentYear = timeinfo->tm_year + 1900;
+    int currentMonth = timeinfo->tm_mon + 1;
+    int currentDay = timeinfo->tm_mday;
 
     // Calculate age
     int age = currentYear - birthYear;
@@ -23,3 +24,4 @@ int main() {
     std::cout << "You are " << age << " years old." << std::endl;
     return 0;
 }
+user B edited from artemis
