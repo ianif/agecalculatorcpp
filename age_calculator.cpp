@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <stdexcept>
+#include <chrono>
 
 int main() {
     int birthYear, birthMonth, birthDay;
@@ -13,21 +14,19 @@ int main() {
         return 1;
     }
 
-    // Get the current date
-    std::time_t t = std::time(nullptr);
-    std::tm* now = std::localtime(&t);
+    // Get the current date using more modern C++ chrono
+    auto now = std::chrono::system_clock::now();
+    std::time_t t = std::chrono::system_clock::to_time_t(now);
+    std::tm* localTime = std::localtime(&t);
     
-    int currentYear = now->tm_year + 1900;
-    int currentMonth = now->tm_mon + 1;
-    int currentDay = now->tm_mday;
+    int currentYear = localTime->tm_year + 1900;
+    int currentMonth = localTime->tm_mon + 1;
+    int currentDay = localTime->tm_mday;
 
-    // Calculate age
-    int age = currentYear - birthYear;
-    if (currentMonth < birthMonth || (currentMonth == birthMonth && currentDay < birthDay)) {
-        age--;
-    }
+    // Calculate age with simplified logic
+    int age = currentYear - birthYear - ((currentMonth < birthMonth || 
+             (currentMonth == birthMonth && currentDay < birthDay)) ? 1 : 0);
 
     std::cout << "You are " << age << " years old." << std::endl;
     return 0;
 }
-NEW
